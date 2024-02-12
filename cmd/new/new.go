@@ -33,7 +33,7 @@ var flags []cli.Flag = []cli.Flag{
 	},
 	&cli.BoolFlag{
 		Name:  "tilt",
-		Usage: "Generate Tiltfile",
+		Usage: "Generate Tilt file",
 	},
 	&cli.BoolFlag{
 		Name:  "health",
@@ -41,7 +41,7 @@ var flags []cli.Flag = []cli.Flag{
 	},
 	&cli.BoolFlag{
 		Name:  "kustomize",
-		Usage: "Generate kubernetes resouce files in a kustomize structure",
+		Usage: "Generate kubernetes resource files in a kustomize structure",
 	},
 	&cli.BoolFlag{
 		Name:  "sqlc",
@@ -57,7 +57,7 @@ var flags []cli.Flag = []cli.Flag{
 	},
 	&cli.BoolFlag{
 		Name:  "tern",
-		Usage: "Generate tern resouces; sql migrations templates",
+		Usage: "Generate tern resources; sql migrations templates",
 	},
 	&cli.BoolFlag{
 		Name:  "advanced",
