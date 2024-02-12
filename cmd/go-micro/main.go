@@ -1,17 +1,17 @@
 package main
 
 import (
-	"github.com/go-micro/cli/cmd"
+	"github.com/trofkm/cli/cmd"
 
 	// register commands
-	_ "github.com/go-micro/cli/cmd/call"
-	_ "github.com/go-micro/cli/cmd/completion"
-	_ "github.com/go-micro/cli/cmd/describe"
-	_ "github.com/go-micro/cli/cmd/generate"
-	_ "github.com/go-micro/cli/cmd/new"
-	_ "github.com/go-micro/cli/cmd/run"
-	_ "github.com/go-micro/cli/cmd/services"
-	_ "github.com/go-micro/cli/cmd/stream"
+	_ "github.com/trofkm/cli/cmd/call"
+	_ "github.com/trofkm/cli/cmd/completion"
+	_ "github.com/trofkm/cli/cmd/describe"
+	_ "github.com/trofkm/cli/cmd/generate"
+	_ "github.com/trofkm/cli/cmd/new"
+	_ "github.com/trofkm/cli/cmd/run"
+	_ "github.com/trofkm/cli/cmd/services"
+	_ "github.com/trofkm/cli/cmd/stream"
 
 	// plugins
 	_ "github.com/go-micro/plugins/v4/registry/kubernetes"

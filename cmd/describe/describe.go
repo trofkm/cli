@@ -1,7 +1,7 @@
 package describe
 
 import (
-	mcli "github.com/go-micro/cli/cmd"
+	mcli "github.com/trofkm/cli/cmd"
 	"github.com/urfave/cli/v2"
 )
 

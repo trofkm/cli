@@ -1,4 +1,4 @@
-module github.com/go-micro/cli
+module github.com/trofkm/cli
 
 go 1.18
 

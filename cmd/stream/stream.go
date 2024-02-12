@@ -1,8 +1,8 @@
 package stream
 
 import (
+	mcli "github.com/trofkm/cli/cmd"
 	"github.com/urfave/cli/v2"
-	mcli "github.com/go-micro/cli/cmd"
 )
 
 func init() {
