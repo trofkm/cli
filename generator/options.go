@@ -38,6 +38,8 @@ type Options struct {
 	Namespace string
 	// PostgresAddress sets the default postgres address
 	PostgresAddress string
+	// OldProtoc is version from v3.12.0 to v3.15.0
+	OldProtoc bool
 }
 
 // Option manipulates the Options passed.
@@ -159,5 +161,12 @@ func Namespace(s string) Option {
 func PostgresAddress(s string) Option {
 	return func(o *Options) {
 		o.PostgresAddress = s
+	}
+}
+
+// OldProtoc
+func OldProtoc(s bool) Option {
+	return func(o *Options) {
+		o.OldProtoc = s
 	}
 }

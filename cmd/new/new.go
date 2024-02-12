@@ -4,7 +4,9 @@ import (
 	"bytes"
 	"fmt"
 	"os"
+	"os/exec"
 	"path"
+	"strconv"
 	"strings"
 	"text/template"
 
@@ -123,6 +125,43 @@ func Service(ctx *cli.Context) error {
 	return createProject(ctx, "service")
 }
 
+type protocVersion string
+
+const (
+	// you need to use `--experimental_allow_proto3_optional` flag if you use protoc v3.12.0 - v3.15.0
+	PROTOC_OLD protocVersion = "v3.12.0"
+	// from versoin v3.15.0  you do not need `--experimental_allow_proto3_optional` flag
+	PROTOC_SUPPORT_OPTIONAL = "v3.15.0"
+)
+
+func determineProtocVersion() protocVersion {
+	output, err := exec.Command("protoc", "--version").Output()
+	if err != nil {
+		return PROTOC_SUPPORT_OPTIONAL
+	}
+
+	splits := strings.Split(string(output), " ")
+	if len(splits) > 1 {
+		version := strings.TrimSpace(splits[1])
+		versionSplitted := strings.Split(version, ".") // minor version
+		if val, err := strconv.Atoi(versionSplitted[0]); err == nil {
+			if val >= 4 {
+				return PROTOC_SUPPORT_OPTIONAL
+			}
+		}
+		if val, err := strconv.Atoi(versionSplitted[1]); err == nil {
+			if val < 15 {
+				return PROTOC_OLD
+			} else {
+				return PROTOC_SUPPORT_OPTIONAL
+			}
+		} else {
+			return PROTOC_OLD
+		}
+	}
+	return PROTOC_OLD
+}
+
 func createProject(ctx *cli.Context, pt string) error {
 	arg := ctx.Args().First()
 	if len(arg) == 0 {
@@ -162,6 +201,7 @@ func createProject(ctx *cli.Context, pt string) error {
 		generator.GRPC(ctx.Bool("grpc") || ctx.Bool("health") || ctx.Bool("complete")),
 		generator.Buildkit(ctx.Bool("buildkit") || ctx.Bool("privaterepo") || ctx.Bool("complete")),
 		generator.Tern(ctx.Bool("tern") || ctx.Bool("complete")),
+		generator.OldProtoc(determineProtocVersion() == PROTOC_OLD),
 		generator.Advanced(ctx.Bool("advanced") || ctx.Bool("complete")),
 		generator.PrivateRepo(ctx.Bool("privaterepo")),
 		generator.Namespace(ctx.String("namespace")),
@@ -289,7 +329,7 @@ func protoComments(name, dir string, sqlc bool) ([]string, error) {
 	tmp := `
 install requirements:
 
-protoc is needed for code generation. You can either install it using your 
+At least version v3.12.0 of protoc is required for code generation. You can either install it using your 
 pacakge manager, or manually install it by downloading the protoc zip packages 
 (protoc-$VERSION-$PLATFORM.zip) from https://github.com/protocolbuffers/protobuf/releases/latest 
 and installing its contents.

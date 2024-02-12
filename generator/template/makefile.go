@@ -17,7 +17,11 @@ init:
 
 .PHONY: proto
 proto:
+	{{- if .OldProtoc}}
+	@protoc --proto_path=. --experimental_allow_proto3_optional --micro_out=. --go_out=:. proto/{{.Service}}.proto
+	{{- else}}
 	@protoc --proto_path=. --micro_out=. --go_out=:. proto/{{.Service}}.proto
+	{{- end}}
 	{{- if .Health}}
 	@protoc --proto_path=. --micro_out=. --go_out=:. proto/health.proto
 	{{end}}
